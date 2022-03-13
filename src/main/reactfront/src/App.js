@@ -1,37 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import useSWR from "swr";
+import fetcher from "./utils/fetcher";
 
 function App() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetch('/api/hello')
-        .then(response => response.text())
-        .then(message => {
-          setMessage(message);
-        });
-  },[])
+    fetch("/api/hello")
+      .then((res) => res.text())
+      .then((message) => setMessage(message));
+  }, []);
+
+  // const { data: messageData } = useSWR(
+  //   "http://localhost:8080/api/hello",
+  //   fetcher,
+  //   {
+  //     dedupingInterval: 10000,
+  //   }
+  // );
+
+  // useEffect(() => {
+  //   axios
+  //     .get("/api/hello", { withCredentials: true })
+  //     .then((res) => res.data)
+  //     .then((message) => setMessage(message));
+  // }, [message, setMessage]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {message}
-        </p>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-
-      </header>
+      <p>{message}</p>
     </div>
   );
 }
